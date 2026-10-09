@@ -1,0 +1,49 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root { color-scheme: light; }
+
+@layer base {
+  body {
+    @apply bg-cream text-ink antialiased;
+    background-image:
+      radial-gradient(circle at 10% 6%, #ffd6e2 0, transparent 36%),
+      radial-gradient(circle at 92% 18%, #e6dcff 0, transparent 32%),
+      radial-gradient(circle at 75% 96%, #d3f0e2 0, transparent 36%),
+      radial-gradient(#f6c3d1 1.4px, transparent 1.6px);
+    background-size: auto, auto, auto, 26px 26px;
+    background-attachment: fixed;
+  }
+  h1, h2, h3 { @apply font-display; }
+  :focus-visible { @apply outline outline-[3px] outline-offset-2 outline-rose; }
+  a { @apply underline-offset-2; }
+}
+
+@layer components {
+  .btn { @apply inline-flex min-h-[44px] items-center justify-center gap-2 rounded-full px-5 py-2 text-sm font-bold transition active:translate-y-px disabled:opacity-50; }
+  .btn-primary { @apply btn bg-rose text-white shadow-[0_4px_0_#9c2a4b] hover:-translate-y-px hover:brightness-105; }
+  .btn-ghost { @apply btn border-2 border-rose/40 bg-white/70 text-rose hover:bg-white; }
+  .btn-danger { @apply btn bg-berry text-white shadow-[0_4px_0_#7d1a35]; }
+  .input { @apply w-full rounded-2xl border-2 border-rose/25 bg-white px-4 py-2.5 text-ink placeholder:text-muted/70 focus:border-rose; }
+  .panel { @apply rounded-[28px] border-2 border-white bg-white/85 p-5 shadow-[0_12px_30px_-10px_rgba(207,63,101,0.35)] backdrop-blur; }
+}
+
+/* Calendar card: pops up a little when opened */
+.card-inner { transition: transform .35s cubic-bezier(.3,1.5,.5,1), box-shadow .35s; }
+.opening .card-inner { transform: translateY(-8px) scale(1.08) rotate(-2.5deg); box-shadow: 0 18px 30px -10px rgba(207,63,101,.55); }
+.opening .pic { transform: scale(1.12); }
+.pic { transition: transform .45s ease; }
+
+@keyframes shake { 0%,100%{transform:translateX(0)} 25%{transform:translateX(-4px)} 75%{transform:translateX(4px)} }
+.shake { animation: shake .3s; }
+@keyframes pop { 0%{transform:scale(.8);opacity:0} 60%{transform:scale(1.15)} 100%{transform:scale(1);opacity:1} }
+.pop { animation: pop .45s ease-out; }
+@keyframes rise { from{opacity:0;transform:translateY(12px)} to{opacity:1;transform:none} }
+.rise { animation: rise .4s ease-out both; }
+@keyframes twinkle { 0%,100%{opacity:.5;transform:scale(.9)} 50%{opacity:1;transform:scale(1.1)} }
+.twinkle { animation: twinkle 2.6s ease-in-out infinite; }
+
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after { animation-duration: .01ms !important; transition-duration: .01ms !important; }
+}
