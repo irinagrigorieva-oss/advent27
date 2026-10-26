@@ -19,8 +19,8 @@ const config: Config = {
         sky: '#d8ecff',
       },
       fontFamily: {
-        display: ['Comfortaa', 'ui-rounded', 'system-ui', 'sans-serif'],
-        sans: ['Nunito', 'ui-rounded', 'system-ui', 'sans-serif'],
+        display: ['var(--font-display)', 'Comfortaa', 'ui-rounded', 'system-ui', 'sans-serif'],
+        sans: ['var(--font-body)', 'Nunito', 'ui-rounded', 'system-ui', 'sans-serif'],
       },
     },
   },
