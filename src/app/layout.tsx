@@ -1,6 +1,11 @@
 import type { Metadata, Viewport } from 'next';
+import { Comfortaa, Nunito } from 'next/font/google';
 import './globals.css';
 import Header from '@/components/Header';
+
+// Self-hosted at build time: no request to Google from the visitor's browser (it can be slow or blocked).
+const display = Comfortaa({ subsets: ['cyrillic', 'latin'], weight: ['600', '700'], display: 'swap', variable: '--font-display' });
+const body = Nunito({ subsets: ['cyrillic', 'latin'], weight: ['400', '600', '700'], display: 'swap', variable: '--font-body' });
 
 function siteUrl(): string {
   const raw = (process.env.NEXT_PUBLIC_SITE_URL || '').trim();
@@ -21,12 +26,7 @@ export const viewport: Viewport = { themeColor: '#fff7f2', width: 'device-width'
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
-    <html lang="ru">
-      <head>
-        <link rel="preconnect" href="https://fonts.googleapis.com" />
-        <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="" />
-        <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Comfortaa:wght@600;700&family=Nunito:wght@400;600;700&display=swap" />
-      </head>
+    <html lang="ru" className={`${display.variable} ${body.variable}`}>
       <body className="min-h-screen font-sans">
         <a href="#main" className="sr-only focus:not-sr-only focus:absolute focus:left-3 focus:top-3 focus:z-50 focus:rounded focus:bg-rose focus:px-3 focus:py-2 focus:text-cream">
           Перейти к содержимому
