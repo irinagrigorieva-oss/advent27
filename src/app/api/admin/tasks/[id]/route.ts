@@ -13,7 +13,7 @@ export async function PATCH(req: Request, { params }: { params: { id: string } }
     .eq('id', params.id)
     .select()
     .single();
-  if (error) return json({ error: error.code === '23505' ? 'Для этого дня уже есть задание' : 'Не удалось обновить' }, error.code === '23505' ? 409 : 500);
+  if (error) return json({ error: error.code === '23505' ? 'Для этого дня уже есть задание' : `Не удалось обновить: ${error.message}` }, error.code === '23505' ? 409 : 500);
   return json(data);
 }
 
