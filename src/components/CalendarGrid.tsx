@@ -63,13 +63,6 @@ const HINTS = [
   'Дверца заперта. Ключ у календаря.',
 ];
 
-function cheer(done: number, total: number): string {
-  if (done === 0) return 'Пока ноль, но все великие дела начинались с нуля.';
-  if (done >= total) return 'Всё выполнено! Можно с чистой совестью есть мандарины.';
-  if (done / total < 0.5) return 'Отличный старт. Какао ещё не остыло.';
-  return 'Больше половины! Дедлайны вас боятся.';
-}
-
 function DayCard({ d, state, i, onLocked }: { d: DayCardData; state: DayCardData['state']; i: number; onLocked: () => void }) {
   const router = useRouter();
   const [opening, setOpening] = useState(false);
@@ -142,8 +135,6 @@ export default function CalendarGrid({ days, skipWeekends }: { days: DayCardData
     d,
     state: (d.state === 'locked' ? 'locked' : doneMap[String(d.day)] ? 'completed' : 'unlocked') as DayCardData['state'],
   }));
-  const done = items.filter((i) => i.state === 'completed').length;
-  const pct = Math.round((done / days.length) * 100);
   const cols = skipWeekends ? 5 : 7;
   const first = days.length ? new Date(`${days[0].ymd}T00:00:00Z`).getUTCDay() : 1; // 0 = Sunday
   const offset = skipWeekends ? Math.max(0, first - 1) : (first + 6) % 7; // empty cells before the first door
@@ -151,16 +142,6 @@ export default function CalendarGrid({ days, skipWeekends }: { days: DayCardData
 
   return (
     <section aria-label="Адвент-календарь">
-      <div className="panel mb-5 !p-4">
-        <div className="mb-2 flex justify-between text-sm font-bold">
-          <span>Выполнено {done} из {days.length}</span>
-          <span className="text-rose">{pct}%</span>
-        </div>
-        <p className="mb-2 text-sm text-muted">{cheer(done, days.length)}</p>
-        <div role="progressbar" aria-valuemin={0} aria-valuemax={days.length} aria-valuenow={done} aria-label="Общий прогресс" className="h-3.5 overflow-hidden rounded-full bg-blush">
-          <div className="h-full rounded-full bg-gradient-to-r from-rose to-[#ff9db5] transition-all duration-700" style={{ width: `${pct}%` }} />
-        </div>
-      </div>
       <ol aria-hidden className="mb-1.5 grid gap-2 text-center text-xs font-bold uppercase tracking-wide text-muted sm:gap-3" style={gridCols}>
         {(skipWeekends ? WD5 : WD7).map((w) => <li key={w}>{w}</li>)}
       </ol>
