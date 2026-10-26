@@ -8,6 +8,6 @@ export async function POST(req: Request) {
   const parsed = taskInput.safeParse(await readJson(req));
   if (!parsed.success) return json({ error: parsed.error.issues[0]?.message ?? 'Некорректные данные' }, 400);
   const { data, error } = await supabaseAdmin().from('tasks').insert(parsed.data).select().single();
-  if (error) return json({ error: error.code === '23505' ? 'Для этого дня уже есть задание' : 'Не удалось создать' }, error.code === '23505' ? 409 : 500);
+  if (error) return json({ error: error.code === '23505' ? 'Для этого дня уже есть задание' : `Не удалось создать: ${error.message}` }, error.code === '23505' ? 409 : 500);
   return json(data, 201);
 }
